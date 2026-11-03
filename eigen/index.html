@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eigenvectors - in sound and vision &middot; ffflllllooooooo</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
+<body>
+<nav><a href="/">&larr; back to the swarm</a></nav>
+
+<p class="meta">transmission received <b>2015.05.31</b> &middot; zone 8</p>
+<h1>Eigenvectors - in sound and vision</h1>
+
+
+<p>The concept of dimensions pops up within a multitude of contexts and
+even in every day life on a regular basis; a line is
+one-dimensional, a cube has 3 dimensions etc. It may generally be
+defined as the minimum number of coordinates
+required to uniquely describe a point within a space. However, different
+contexts require different definitions.
+In terms of vector spaces, one
+valid definition of dimension is the cardinality of the generating set
+of that space.</p>
+<p>To reduce dimensions of high-dimensional data points we need to project them to
+a not-so-high-dimensional space. To do so one must find components/vectors
+which maximize variance. These components are called eigenvectors and are the
+result of a principal component analysis (PCA). High-dimensional data points
+(e.g. an image or a song) of some dimension \(d_1\) are projected to a hyperplane
+of dimension \(d_2 &lt;&lt; d_1\). This hyperplane is spanned by eigenvectors.
+It would be nice to make this concept a little
+more tangible, to visualize it in some way. And, while we are at it,
+there is no need to restrict ourselves to the visual modality, we can
+also try and make a high dimensional space (or it's reduced components) audible as well.</p>
+<p>Eigenfaces are probably the most popular eigenvectors.</p>
+<h2>The face space</h2>
+<p>A picture is most naturally represented as a matrix of
+pixel values. However, the rows of the matrix might as well be
+concatenated into one long row vector, i.e. be represented as points in
+an 'image space'. For simplicity's sake let's narrow it down some more
+and consider only gray scale images and only images depicting human
+faces. Despite these constraints, your 'face space' is still huge, for
+250x250 pixel images its dimension is just that, 62500.</p>
+<p><em>Eigenfaces are the eigenvectors of the covariance matrix of the face vector space.</em></p>
+<p>Step by step:</p>
+<p>Let \(P\) be a matrix build from row vectors \(P_i^T, \; 1 \leq i \leq N\) </p>
+\[P = \begin{bmatrix}
+P_1^T \\
+\dots \\
+P_N^T \\
+\end{bmatrix}\]
+<p>where the \(i^{th}\) row vector \(P_i^T\) is</p>
+\[(\underbrace{P_{i1} - \bar{P}_{i1}}_{\text{1st mean-subtracted pixel of } i^{th} \text{ picture}} \dots \; P_{im}-\bar{P}_{im})\]
+<p>The scatter matrix then is</p>
+\[S = P^TP \in [0,1]^{m^2 \times m^2}\]
+<p>So \(S\) is a \(m^2 \times m^2\) matrix, where \(m\) is the number of pixels in one picture.</p>
+<p>Now the last step is to compute the eigenvectors of \(S\), but even if we use small images,
+\(S\) will be huge and computation expensive.</p>
+<p>Game over?</p>
+<p>No! Fortunately we can make use of the following property:</p>
+<p>If \(v\) is an eigenvector of \(PP^T\) then:</p>
+\[(P^TP) P^Tv = \lambda P^Tv\]
+<p>This means we can compute the eigenvectors of \(P^TP\) by computing the eigenvectors
+of the much smaller matrix \(PP^T \in [0,1]^{N \times N}\):</p>
+<p>Let \(e_i\) be such an eigenvector, then: \(P^Te_i\) is an eigenvector of \(P^TP\)
+Now normalize \(P^Te_i\) and the results are the eigenfaces:</p>
+\[eigenface_i = \frac{P^Te_i}{||P^Te_i||}\]
+<p>All this can be directly translated to Python (numpy is your friend):</p>
+<pre><code class="language-python">def eigen(p):
+    from numpy import linalg
+
+    p = np.matrix(p)
+    p_ = p.mean(axis=0)
+    P = p - p_
+
+    evalues,evectors = linalg.eig(np.dot(P, np.transpose(P)))
+
+    args  = evalues.argsort()
+    evectors = evectors[args]
+    evectors = evectors[::-1]
+
+    P_evectors = [(np.dot(np.transpose(P), np.transpose(evector)))
+          for evector in evectors]
+    eigen = map(lambda e: e/np.linalg.norm(e), P_evectors)
+
+    return eigen
+
+</code></pre>
+<p><br></p>
+<p><br></p>
+<pre><code class="language-python">from sklearn.datasets import fetch_olivetti_faces
+
+n_row, n_col = 4, 4; n_eigenfaces = n_row * n_col
+faces = fetch_olivetti_faces(shuffle=True,random_state=RandomState(0)).data
+eigenface = eigen(faces)
+
+plot_gallery(&quot;Eigenfaces&quot;, eigenface[:n_eigenfaces], n_col, n_row)
+
+</code></pre>
+<p><img src="/assets/eigen/eigenfaces.png" alt="" loading="lazy"></p>
+<h2>Eigenbach?</h2>
+<p>The function <code>eigen(.)</code> is not specially tailored for faces. As long as the argument is a matrix...
+So what happens if our argument is a matrix of sound files? How about some Johann Sebastian Bach?</p>
+<p>Well, the problem is:</p>
+<pre><code class="language-bash">&gt; du -sh /home/f/Musik/Johann\ Sebastian\ Bach/Bach\ Complete\ Works\
+15G /home/f/Musik/Johann Sebastian Bach/Bach Complete Works
+</code></pre>
+<p>As written above; the task would be to multiply \(P\) with \(P^T\), but these matrices are 15G large...</p>
+<p>So since Bach was quite productive I chose a very small subset, namely <em>The Well-Tempered Clavier</em> (a reasonable set of 98 .mp3 files).
+I converted the .mp3s to .wavs using mpg123 and then used the first million frames of every .wav, which
+then resulted in 1000000/44100 = 22.68 s long <em>eigenclaviers</em> \(c_i, 0 \leq i \leq 96\) or rather
+<em>partial-eigenclaviers</em> (slowly eigen* becomes a well-worn prefix).</p>
+<p>However I uploaded the <a href="https://www.youtube.com/playlist?list=PLh8vTOEagC0IG6YjpqugFantJQUrGNArs">first ten</a>.
+Out of the first ten, these three may be the most interesting:</p>
+<iframe src="https://www.youtube-nocookie.com/embed/_fvoA_LHguI" allowfullscreen loading="lazy"></iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/uQsKtYHn9lk" allowfullscreen loading="lazy"></iframe>
+<iframe src="https://www.youtube-nocookie.com/embed/Ru6nq9RPcGQ" allowfullscreen loading="lazy"></iframe>
+
+
+<footer>
+<p>archived transmission. original human text, unaltered except for typos the machine refused to fix.</p>
+</footer>
+</body>
+</html>

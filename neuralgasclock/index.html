@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neural Gas Clock &middot; ffflllllooooooo</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
+<body>
+<nav><a href="/">&larr; back to the swarm</a></nav>
+
+<p class="meta">transmission received <b>2014.09.22</b> &middot; zone 2</p>
+<h1>Neural Gas Clock</h1>
+<blockquote>the clock above used to run on processing.js. processing.js is dead. it was re-grown in plain javascript in 2026. the code below is the 2014 original, kept as a fossil.</blockquote>
+<canvas id="clock"></canvas>
+<script src="/clock.js"></script>
+<p><em>Neural gases</em> are artificial neural networks for vector quantization. They can learn probability distributions or topologies in general. They were first introduced in 1991 by Thomas Martinez and Klaus Schulten, who are researchers in the field of neuroinformatics.
+Fast convergence (especially when you are learning a non-static probability distribution as it is the case here) is crucial for applications of vector quantization. As you can see, readability of seconds is an issue. This -of course- can be improved.</p>
+<p>The neural gas algorithm is detailed in the original paper<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. In this post, I want to give a short explanation based on this clock.</p>
+<p>The (Euclidean) topologies which are learned in this case are digits, as displayed by digital clocks using a seven-segment LED display. In my code those segments are implemented as simple lines.
+Every digit is made up of \(N\) 2-dimensional <strong><em>codebook vectors</em></strong> \(w_1, w_2, ... ,w_N\). These vectors are visualized as the little dots you can see whirling around in the above clock.
+Here, the codebook vectors are initialized deterministically (<a href="http://en.wikipedia.org/wiki/Halton_sequence">Halton sequence</a>). Then, a data vector \(x\) (i.e. a point situated on one of the line segments of the digit) is chosen randomly. In the following, every single one of the \(N\) codebook vectors is adapted to \(x\).</p>
+<p>So, how does this adaptation process work exactly?</p>
+<p>After a random point \(x\) located on a digit is chosen, the distance to \(x\) is determined for all codebook vectors \(w_1, w_2, ... w_N\). Next, they are sorted accordingly in ascending order, such that for \(k=0 \; w_{i_k}\) is the codebook vector nearest to \(x\). For \(k=0,...,N-1\) adaptation is (cf. <sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup>):</p>
+\[\vec{w_i} \longleftarrow \vec{w_i} + \epsilon(t)e^{\frac{-k}{\lambda(t)}}(\vec{w_i^tx^t})\]
+<p>where \(t\) increases nonlinearly.</p>
+<p>The new position of a "particle" (codebook vector) is computed by adding its old position to a vector pointing from the old position to the data vector \(x\) weighted by some time-dependent factors (i.e. functions). In detail:</p>
+\[\underbrace{\vec{w_i}}_{\text{new codebook vector}} \longleftarrow \underbrace{\vec{w_i}}_{\text{old codebook vector}} + \underbrace{\epsilon(t)}_{\text{learning rate}} e^{\frac{-k}{\underbrace{\lambda(t)}_{*}}}\underbrace{\vec{w_i^tx^t}}_{\substack{\text{vector from codebook} \\\ \text{vector to data vector}}}\]
+<p>\(*\) neighbourhood range</p>
+<p>\(\epsilon(t)\) and \(\lambda(t)\) decay over time:</p>
+<pre><code class="language-java">// using processing(js)
+
+class CodebookVector {
+  final float t_max = 500.0;
+
+  PVector w;
+  int i;         // index/order (-&gt; e.g. euclidian norm)
+  float t = 1.0;
+  float time = 1.0;
+  float neighbourhood = 8.0;
+
+  public CodebookVector(float posx, float posy, int i) {
+    this.i = i;
+    this.w = new PVector(posx, posy);
+  }
+
+  void changeOrder(int i) {
+    this.i = i;
+  }
+
+  void resetTime() {
+    this.t = 1;
+    this.time = 1;
+  }
+
+  float eta(float t) {
+    return 1-1*(t/t_max);
+  }
+
+  float lambda(float t) {
+    return neighbourhood-neighbourhood*(t/t_max);
+  }
+
+  /**
+   * change the weight vector/codebook vector w in direction of input
+   * @input: (x y) from prob. distribution
+   **/
+   void learn(float x, float y) {
+    float l = eta(this.t) * exp(-this.i/lambda(this.t))
+    this.w.x = this.w.x + l * (x - this.w.x);
+    this.w.y = this.w.y + l * (y - this.w.y);
+
+    this.t = t_max*(1 - exp(-0.012*(++this.time))); // t increases nonlinearly
+  }
+
+}
+
+}
+
+</code></pre>
+<p>(A python-version can be found <a href="https://github.com/flobeck/neuralgasclock">here</a>)</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p><a href="http://www.ks.uiuc.edu/Publications/Papers/PDF/MART91B/MART91B.pdf">A 'Neural-Gas' Network Learns Topologies</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+<footer>
+<p>archived transmission. original human text, unaltered except for typos the machine refused to fix.</p>
+</footer>
+</body>
+</html>

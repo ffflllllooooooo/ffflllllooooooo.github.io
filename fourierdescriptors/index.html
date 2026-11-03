@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fourier Descriptors &middot; ffflllllooooooo</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
+<body>
+<nav><a href="/">&larr; back to the swarm</a></nav>
+
+<p class="meta">transmission received <b>2015.12.21</b> &middot; zone 5</p>
+<h1>Fourier Descriptors</h1>
+
+
+<p>In pattern recognition fourier descriptors (FD) are used to extract meaningful characteristics
+of a closed curve. Imagine, for instance, you have the fourier descriptors of the
+contour of a maple and a chestnut leaf and you want to classify another leaf in one
+of those two classes (you are living in a world with only two kinds of trees). 
+This scenario can be (easily?) solved with FD, because they are tranlation, rotation and scaling 
+invariant.<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
+<p>You take the vertices \((x,y)\) of some arbitrary polygon and transform 
+them to complex numbers \((x+iy)\). The fourier descriptors are the normalized
+coefficients of DFT of the \((x+iy)\).</p>
+<p>By applying the inverse DFT the original contour can be retrieved.
+It turns out that only a few low frequency components are enough to get a good approximation.</p>
+<p>For every frame in this .gif an additional fourier descriptor is used.
+<img src="/assets/fourierdescriptors/fourier.gif" alt="" loading="lazy"></p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p><a href="http://fourier.eng.hmc.edu/e161/lectures/fd/node1.html">http://fourier.eng.hmc.edu/e161/lectures/fd/node1.html</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+<footer>
+<p>archived transmission. original human text, unaltered except for typos the machine refused to fix.</p>
+</footer>
+</body>
+</html>
