@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Florian Becker">
+<title>The Forest Has No Census &middot; ffflllllooooooo</title>
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
+<style>
+  figure { margin: 2.4em 0; width: calc(100% + 4em); max-width: 92vw; }
+  figure img { margin: 0; width: 100%; }
+  figcaption { font-size: 15px; line-height: 1.45; margin-top: 0.8em; }
+  figcaption b, ol.arg li b { font-weight: normal; font-variant: small-caps; letter-spacing: 0.04em; }
+  ol.arg { list-style: none; padding-left: 0; }
+  ol.arg li { margin-bottom: 0.7em; }
+  .subtitle { font-size: 1.15em; margin: 0.1em 0 0.6em; }
+  .author { font-style: italic; margin: 0.2em 0 0; }
+  .tldr { border-left: 3px solid #0b0b0b; padding: 0.2em 0 0.2em 1em; margin: 1.6em 0 2.4em; }
+  .tldr p { margin: 0; }
+  .tldr b { font-weight: normal; font-variant: small-caps; letter-spacing: 0.05em; }
+  .seq { font-family: "Courier New", monospace; font-size: 18px; font-weight: bold; letter-spacing: 0.02em; margin: 0.7em 0 0.7em 1.2em; }
+  .seq b { color: #d40000; font-weight: bold; }
+  .refs { font-size: 15px; padding-left: 0; list-style: none; }
+  .refs li { margin-bottom: 0.6em; padding-left: 1.5em; text-indent: -1.5em; }
+  .refs li:target { background: #e3dfd5; }
+</style>
+<body>
+<nav><a href="/">&larr; back to the swarm</a></nav>
+
+<p class="meta">transmission received <b>2026.11.05</b> &middot; zone 8</p>
+<h1>The Forest Has No Census</h1>
+<p class="subtitle">The Simulation Argument and Infinitely Many Universes</p>
+<p class="author">Florian Becker</p>
+
+<div class="tldr">
+<p><b>Abstract.</b> Nick Bostrom's simulation argument says that, unless civilisations like ours die out or lose interest, most minds like ours are simulated, so we are probably simulated too. That conclusion rests on counting minds. But if there are infinitely many universes, as some cosmological models suggest, the count depends on how one lines the universes up. Grant a global clock that lines them up, and let new universes keep appearing, as they do in eternal inflation: counting everyone who exists at one moment then finds almost no one simulated. Without such a clock, there is no fact about the count at all. Either way, the argument does not tell us that we are simulated.</p>
+</div>
+
+
+<h2>1. The simulation argument</h2>
+
+<p>Could the world we live in be a computer simulation? The question sounds like science fiction, but it has a precise philosophical form. In &ldquo;Are You Living in a Computer Simulation?&rdquo;, Nick Bostrom argues that at least one of the following three propositions is true (<a href="#bostrom2003">Bostrom 2003</a>):</p>
+
+<ol>
+  <li>Almost no civilisation at our level of development survives to a technologically mature, &ldquo;posthuman&rdquo; stage.</li>
+  <li>Almost no posthuman civilisation is interested in running detailed simulations of its ancestors.</li>
+  <li>Almost all observers with experiences like ours live in such a simulation.</li>
+</ol>
+
+<p>The argument rests on a count. Let \(\mathcal{O}\) be the set of observers with experiences like ours and \(\mathcal{O}_{\text{sim}} \subseteq \mathcal{O}\) those among them who are simulated. Everything turns on the <em>simulated fraction</em> \(f_{\text{sim}}\), the share of these observers who are simulated:</p>
+
+\[ f_{\text{sim}} \;=\; \frac{|\mathcal{O}_{\text{sim}}|}{|\mathcal{O}|}. \]
+
+<p>A single posthuman civilisation could run vast numbers of ancestor simulations, each containing as many people as a civilisation's entire history. So unless (1) or (2) holds, \(f_{\text{sim}}\) is close to one. (Bostrom writes this as \(f_P \bar N / (f_P \bar N + 1)\), with \(f_P\) the fraction of civilisations that become posthuman and \(\bar N\) the average number of simulations each runs.)</p>
+
+<p>A second premise turns this count into a belief about oneself. If a fraction \(f_{\text{sim}}\) of observers like you are simulated, and nothing in your experience tells you which kind of observer you are, you should be exactly that confident that you are one of the simulated ones, just as, drawing a ticket from a hat that holds 99 red tickets and one white one, you should be 99% sure that yours is red. Bostrom calls this the <em>bland indifference principle</em>, the indifference principle for short: with no evidence that sets you apart, you should be indifferent between being any one of the observers like you. Writing \(\mathrm{Cr}\) for <em>credence</em>, one's degree of belief expressed as a probability, it says:</p>
+
+\[ \mathrm{Cr}(\text{I am simulated}) \;=\; f_{\text{sim}}. \]
+
+<p>Together, the count and the principle give proposition 3 its familiar form: we are probably simulated.</p>
+
+<p>All of this assumes that \(f_{\text{sim}}\) is a well-defined number. In a finite world it is: one counts and divides. This note asks what happens when there are infinitely many observers. It argues that \(f_{\text{sim}}\) is then fixed by how one chooses to count rather than by the world, and that reasonable choices give opposite answers.</p>
+
+<h2>2. Counting infinitely many observers</h2>
+
+<p>Call a universe that is not simulated a <em>root</em>. Now suppose there are infinitely many roots, which is less exotic than it sounds. Inflation is the leading account of the very early universe, and in many of its versions it is <em>eternal</em>: it never ends everywhere at once, and keeps producing new pocket universes that are causally disconnected from one another (<a href="#vilenkin1983">Vilenkin 1983</a>; <a href="#linde1986">Linde 1986</a>; <a href="#guth2007">Guth 2007</a>). Each root that lasts long enough runs simulations, and some of those run simulations of their own, so every root carries a tree of simulations.</p>
+
+<p>The observers in roots and the simulated observers then both form countably infinite sets. They have the same cardinality, \(\aleph_0\): the two can be paired off one to one, with nothing left over. The ratio above becomes \(\aleph_0/\aleph_0\), which has no value. Nor does it follow that the two groups are equally common. Cardinality simply cannot compare them, so the comparison has to come from somewhere else.</p>
+
+<p>The standard tool for comparing infinite sets is <em>natural density</em>. List the elements one at a time, look at the first \(n\) entries of the list, compute the proportion that belongs to the set of interest, and see where that proportion settles as \(n\) grows. For a set \(A\) and a list \(x_1, x_2, x_3, \dots\),</p>
+
+\[ d(A) \;=\; \lim_{n\to\infty} \frac{\#\{\, i \le n : x_i \in A \,\}}{n}. \]
+
+<p>In the usual order of the natural numbers, about half of the first \(n\) entries are even, so the even numbers have density \(1/2\):</p>
+
+<p class="seq">1 &nbsp;<b>2</b>&nbsp; 3 &nbsp;<b>4</b>&nbsp; 5 &nbsp;<b>6</b>&nbsp; 7 &nbsp;<b>8</b>&nbsp; 9 &nbsp;<b>10</b>&nbsp; 11 &nbsp;<b>12</b>&nbsp; &hellip; &nbsp;&nbsp; even: \(1/2\)</p>
+
+<p>Now list the same numbers differently: two odd numbers, then the next even one.</p>
+
+<p class="seq">1 &nbsp;3 &nbsp;<b>2</b>&nbsp; 5 &nbsp;7 &nbsp;<b>4</b>&nbsp; 9 &nbsp;11 &nbsp;<b>6</b>&nbsp; 13 &nbsp;15 &nbsp;<b>8</b>&nbsp; &hellip; &nbsp;&nbsp; even: \(1/3\)</p>
+
+<p>Nothing has been added or removed; every number still appears exactly once. But now every third entry is even, and the density of the even numbers is \(1/3\). With three odd numbers before each even one it is \(1/4\); by making the even numbers ever rarer in the list it can be pushed to \(0\), and by doing the opposite towards \(1\). So the question &ldquo;what fraction of the natural numbers is even?&rdquo; has no answer until a list is fixed. The usual order only feels like the obvious one.</p>
+
+<p>The simulated fraction works the same way. With infinitely many observers, \(f_{\text{sim}}\) becomes the natural density of simulated observers in some list of all observers (or, more generally, a measure over them). Change the list and the value changes; as long as both groups are infinite, any value in \([0,1]\) can be reached.</p>
+
+<h2>3. Argument</h2>
+
+<p>Ordering observers across disconnected universes needs something that spans all of them. The most natural candidate is a <em>global time</em>: one clock shared by every universe, against which one can say which universes exist &ldquo;now&rdquo;. Either there is such a global time, or there is not. The argument takes each case in turn, and in neither does proposition 3 follow.</p>
+
+<h3>Case one: there is a global time</h3>
+
+<p>Assume, for now, that a global time exists. Each universe also keeps its own clock, its <em>intrinsic time</em>, which measures its age. Against a global time, every root begins at some moment and has a definite age at every later one. Figure 1 draws exactly this picture.</p>
+
+<p>Now suppose, as in eternal inflation, that new roots keep appearing, at a rate that grows exponentially: at any moment of global time most roots are young (<a href="#guth2007">Guth 2007</a>). Young roots have not had time to run simulations.</p>
+
+<figure>
+  <img src="roots.svg" alt="Upright trees placed by when they began in global time; their bases lie on a rising dotted line and every tree grows up to a horizontal line marked now, t*. Height is intrinsic single-universe age. The oldest tree on the left is full of simulations; many young roots crowd near t* in a small shaded triangle, too young to simulate.">
+  <figcaption><b>Figure 1.</b> One forest, two times. Each tree is a root universe (○) and the simulations it runs; at each ● a simulation begins, and once old enough it can run simulations of its own. Horizontally, <em>global time</em>: each root stands at the moment it began, and all the beginnings lie on the dotted line. Vertically, each tree grows by its <em>intrinsic single-universe age</em> until &ldquo;now&rdquo;, \(t^*\). A universe can run simulations only after age \(\Delta\). Counting one tree, everything in it up to now, finds almost only simulations: \(f_{\text{sim}} \to 1\). This is what Bostrom's sphere does. Counting all trees along now finds mostly young roots, because roots begin at an ever faster rate and most began less than \(\Delta\) before now (shaded), too recently to have simulated anything: \(f_{\text{sim}} \to 0\). The figure assumes a global time, as in case one; without one, the line &ldquo;now&rdquo; across all trees does not exist (case two). Each universe stands in for the observers it contains.</figcaption>
+</figure>
+
+<p>The natural way to use a global time is to count everyone who exists at one of its moments, \(t^*\). Let roots appear at a rate proportional to \(e^{\gamma t}\), and let a root need age \(\Delta\) before it runs any simulations. At \(t^*\), the fraction of roots that are at least \(\Delta\) old is</p>
+
+\[ \frac{\int_{-\infty}^{\,t^*-\Delta} e^{\gamma t}\,dt}{\int_{-\infty}^{\,t^*} e^{\gamma t}\,dt} \;=\; e^{-\gamma\Delta}. \]
+
+<p>Only those old roots contain simulations. Give every root one unit of unsimulated observers, and every old root, in addition, \(N\) units of simulated ones. Then the simulated fraction at \(t^*\) is</p>
+
+\[ f_{\text{sim}} \;\approx\; \frac{N e^{-\gamma\Delta}}{N e^{-\gamma\Delta} + 1}, \]
+
+<p>which goes to zero once \(\gamma\Delta\) is much larger than \(\ln N\): the count mostly finds newborn universes. In eternal inflation \(\gamma\) is enormous compared with the time it takes a civilisation to develop, so this is the expected case, not a contrived one.</p>
+
+<p>Bostrom's own proposal for the infinite case counts differently: pick a point at the base level and count observers within a sphere of growing radius (<a href="#bostrom2025">Bostrom 2025</a>, question 7). Everything inside the sphere belongs to one root and its simulations; in effect, it counts one tree up to now, and finds \(f_{\text{sim}} \to 1\).</p>
+
+<p>So even granting the most natural ordering there is, Bostrom's conclusion does not follow. The count that actually uses the global time finds almost no one simulated. At best, from Bostrom's side, two simple ways of counting, neither built to give a particular answer, disagree completely, and nothing in the physics says which is correct.</p>
+
+<h3>Case two: there is no global time</h3>
+
+<p>Drop the assumption, and things get worse for the simulation argument, not better.</p>
+
+<ol class="arg">
+  <li><b>Premise 1.</b> <em>The indifference principle is justified only if \(f_{\text{sim}}\) is a fact about the world.</em> If \(f_{\text{sim}}\) depended on a choice we make, then setting our credence equal to it would make the credence depend on that choice too.</li>
+  <li><b>Premise 2.</b> <em>With infinitely many observers, \(f_{\text{sim}}\) depends on how they are ordered.</em> As shown in section 2, reordering an infinite set changes its proportions.</li>
+  <li><b>Premise 3.</b> <em>Without a global time, the world supplies no privileged ordering across disconnected roots.</em> Inside a single universe there are natural orderings: its geometry suggests counting within ever larger spheres, and its intrinsic time orders events from earlier to later. But universes with no causal or spatial relation to each other share neither space nor time, so any ordering across them, whether a list or a clock, has to be chosen.</li>
+  <li><b>Conclusion.</b> <em>Then \(f_{\text{sim}}\) is not a fact, and the indifference principle has nothing to apply to.</em> Proposition 3 does not follow without an extra premise: that reality is finite, or that there is a single base reality from which all counting starts.</li>
+</ol>
+
+<p>A defender of Bostrom might reply that, even so, only contrived orderings give a low value, and that the simple ones all give a value near one. Dorr and Arntzenius defend this kind of reply for infinite worlds in general: among all orderings, prefer the simple ones, such as those given by a natural metric (<a href="#dorr2017">Dorr &amp; Arntzenius 2017</a>). But case one has already shown that simple orderings need not agree, and the natural metric of one universe says nothing about how to line up the others.</p>
+
+<p>Case two is also not merely hypothetical. In cosmology, the global times used to compare regions of an eternally inflating universe are choices of time coordinate. Several are in use, such as proper time and scale-factor time, and they give different answers to the same counting questions; this is the measure problem (<a href="#guth2007">Guth 2007</a>; <a href="#freivogel2011">Freivogel 2011</a>). So there is no unique global time to appeal to.</p>
+
+<p>Either way, the result is the same. With a global time, the natural count finds almost no one simulated. Without one, there is no fact about the count at all. In neither case does &ldquo;we are probably simulated&rdquo; follow.</p>
+
+<h2>4. What the argument does and does not show</h2>
+
+<p>It does not show that we are not simulated. It shows that the inference to &ldquo;probably simulated&rdquo; does not go through in an infinite world without an extra assumption. In a finite world, Bostrom's count is unaffected.</p>
+
+<p>The global-time count of case one is what cosmologists call the proper-time measure (<a href="#linde1994">Linde, Linde &amp; Mezhlumian 1994</a>). It is widely rejected, because it predicts that we should find ourselves in an implausibly young universe, the so-called youngness paradox (<a href="#tegmark2005">Tegmark 2005</a>; <a href="#guth2007">Guth 2007</a>). If it were the right measure, the conclusion would be stronger than the one drawn here: we would probably not be simulated. Case one does not need that. It needs only that this global time is a natural one, which it is: its trouble lies in its predictions, not in its simplicity. The alternatives proposed instead, such as the causal-patch measure (<a href="#bousso2006">Bousso 2006</a>), are themselves contested, which leads back to case two.</p>
+
+<p>The strongest reply is that physics may eventually single out a preferred measure across disconnected regions. Finding one is the cosmological measure problem (<a href="#freivogel2011">Freivogel 2011</a>). It is open, and it also decides how seriously to take Boltzmann brains, observers that arise from random fluctuations rather than from evolution (<a href="#albrecht2004">Albrecht &amp; Sorbo 2004</a>). If such a measure is found, the simulation argument will succeed or fail depending on what it says. Until then, the argument does not stand on its own: its conclusion waits on the solution to the measure problem.</p>
+
+<h2>5. Conclusion</h2>
+
+<p>Bostrom's argument needs a definite fraction of simulated observers. If there are infinitely many disconnected universes, either a global time links them or nothing does. If one does, and new universes keep appearing, the natural count, everyone who exists now, finds almost no one simulated; only counting a single universe outward recovers Bostrom's answer. If nothing does, there is no fraction at all until one chooses how to count. Either way, the conclusion that we are probably simulated does not follow. In such a world we might, in the end, not be simulated at all: the argument gives no reason to think that we are, and on one natural way of counting almost no one is.</p>
+
+<h2>6. Related work</h2>
+
+<p>Bostrom anticipates the infinite case in the FAQ accompanying his paper. He concedes that the ratio of simulated to unsimulated people is then undefined and proposes a limiting density over hyperspheres centred at the base level of reality (<a href="#bostrom2025">Bostrom 2025</a>). That proposal presupposes a single base level. Elsewhere he sets the issue aside by assuming that everything is finite (<a href="#bostrom2011b">Bostrom &amp; Kulczycki 2011</a>). The ordering-dependence of infinite sums is central to his work on infinite ethics (<a href="#bostrom2011a">Bostrom 2011</a>), but he does not apply it to the simulation argument.</p>
+
+<p>Dorr and Arntzenius give the general version: when two classes of observers have equal cardinality, an ordering can be chosen that gives their ratio any value; they then argue that orderings based on a natural metric are privileged (<a href="#dorr2017">Dorr &amp; Arntzenius 2017</a>). Premise 3 accepts this within a universe and denies that it extends across disconnected roots. Dainton remarks in passing that real and simulated lives could be paired one-to-one, putting the odds at no worse than even (<a href="#dainton2002">Dainton 2002</a>). Tegmark notes in a single sentence that simulations complicate the measure problem (<a href="#tegmark2008">Tegmark 2008</a>), and Carlsmith expects the simulation argument to break down in infinite worlds without developing the point (<a href="#carlsmith2022">Carlsmith 2022</a>).</p>
+
+<p>As far as I can find, three points have not been put together before: that \(f_{\text{sim}}\) is relative to a way of counting, that nothing physical fixes the way of counting across disconnected roots, and that a standard cosmological way of counting reverses Bostrom's conclusion.</p>
+
+<h2>References</h2>
+
+<ol class="refs">
+  <li id="albrecht2004">Albrecht, A. &amp; Sorbo, L. (2004). Can the universe afford inflation? <em>Physical Review D</em> 70, 063528. <a href="https://doi.org/10.1103/PhysRevD.70.063528">doi</a></li>
+  <li id="bostrom2003">Bostrom, N. (2003). Are you living in a computer simulation? <em>Philosophical Quarterly</em> 53(211), 243&ndash;255. <a href="https://simulation-argument.com/simulation.pdf">pdf</a></li>
+  <li id="bostrom2011a">Bostrom, N. (2011). Infinite ethics. <em>Analysis and Metaphysics</em> 10, 9&ndash;59. <a href="https://nickbostrom.com/ethics/infinite.pdf">pdf</a></li>
+  <li id="bostrom2011b">Bostrom, N. &amp; Kulczycki, M. (2011). A patch for the simulation argument. <em>Analysis</em> 71(1), 54&ndash;61. <a href="https://doi.org/10.1093/analys/anq107">doi</a></li>
+  <li id="bostrom2025">Bostrom, N. (2025). The simulation argument FAQ, version 2.0. <a href="https://simulation-argument.com/faq/">web</a></li>
+  <li id="bousso2006">Bousso, R. (2006). Holographic probabilities in eternal inflation. <em>Physical Review Letters</em> 97, 191302. <a href="https://doi.org/10.1103/PhysRevLett.97.191302">doi</a></li>
+  <li id="carlsmith2022">Carlsmith, J. (2022). Simulation arguments, sections XVII&ndash;XVIII. <a href="https://joecarlsmith.com/2022/02/18/simulation-arguments/">web</a></li>
+  <li id="dainton2002">Dainton, B. (2002). Innocence lost: simulation scenarios, prospects and consequences. Manuscript. <a href="https://simulation-argument.com/dainton.pdf">pdf</a></li>
+  <li id="dorr2017">Dorr, C. &amp; Arntzenius, F. (2017). Self-locating priors and cosmological measures. In K. Chamcham et al. (eds.), <em>The Philosophy of Cosmology</em>, 396&ndash;428. Cambridge University Press. <a href="https://doi.org/10.1017/9781316535783.021">doi</a></li>
+  <li id="freivogel2011">Freivogel, B. (2011). Making predictions in the multiverse. <em>Classical and Quantum Gravity</em> 28, 204007. <a href="https://doi.org/10.1088/0264-9381/28/20/204007">doi</a></li>
+  <li id="guth2007">Guth, A. (2007). Eternal inflation and its implications. <em>Journal of Physics A</em> 40, 6811&ndash;6826. <a href="https://arxiv.org/abs/hep-th/0702178">arXiv</a></li>
+  <li id="linde1986">Linde, A. (1986). Eternally existing self-reproducing chaotic inflationary universe. <em>Physics Letters B</em> 175, 395&ndash;400. <a href="https://doi.org/10.1016/0370-2693(86)90611-8">doi</a></li>
+  <li id="linde1994">Linde, A., Linde, D. &amp; Mezhlumian, A. (1994). From the big bang theory to the theory of a stationary universe. <em>Physical Review D</em> 49, 1783&ndash;1826. <a href="https://doi.org/10.1103/PhysRevD.49.1783">doi</a></li>
+  <li id="tegmark2005">Tegmark, M. (2005). What does inflation really predict? <em>Journal of Cosmology and Astroparticle Physics</em> 2005(04), 001. <a href="https://doi.org/10.1088/1475-7516/2005/04/001">doi</a></li>
+  <li id="tegmark2008">Tegmark, M. (2008). The mathematical universe. <em>Foundations of Physics</em> 38, 101&ndash;150. <a href="https://arxiv.org/abs/0704.0646">arXiv</a></li>
+  <li id="vilenkin1983">Vilenkin, A. (1983). Birth of inflationary universes. <em>Physical Review D</em> 27, 2848&ndash;2855. <a href="https://doi.org/10.1103/PhysRevD.27.2848">doi</a></li>
+</ol>
+
+</body>
+</html>
